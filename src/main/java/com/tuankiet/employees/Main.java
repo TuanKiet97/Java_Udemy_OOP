@@ -29,7 +29,7 @@ public class Main {
         Matcher peopleMat = peoplePat.matcher(peopleText);
 
         int totalSalaries = 0;
-        Employee employee = null;
+        IEmployee employee = null;
         while (peopleMat.find()) {
             employee = switch (peopleMat.group("role")) {
                 case "Programmer" ->  new Programmer(peopleMat.group());
