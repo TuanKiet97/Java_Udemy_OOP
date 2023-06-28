@@ -1,5 +1,6 @@
 package com.tuankiet.employees;
 
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         String peopleText =     """
     Flinstone, Fred, 1/1/1900, Programmer, {locpd=2000,yoe=10,iq=140}
+    Flinstone2, Fred, 1/1/1900, Programmer, {locpd=1300,yoe=14,iq=100}
     Flinstone2, Fred, 1/1/1900, Programmer, {locpd=1300,yoe=14,iq=100}
     Flinstone3, Fred, 1/1/1900, Programmer, {locpd=2300,yoe=8,iq=105}
     Flinstone4, Fred, 1/1/1900, Programmer, {locpd=1630,yoe=3,iq=115}
@@ -27,19 +29,14 @@ public class Main {
         String peopleRegex = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w+)(?:,\\s*\\{(?<details>.*)\\})?\\n";
         Pattern peoplePat = Pattern.compile(peopleRegex);
         Matcher peopleMat = peoplePat.matcher(peopleText);
-
         int totalSalaries = 0;
-        IEmployee employee = null;
+        Employee employee = null;
         while (peopleMat.find()) {
-            employee = switch (peopleMat.group("role")) {
-                case "Programmer" ->  new Programmer(peopleMat.group());
-                case "Manager" -> new Manager(peopleMat.group());
-                case "Analyst" -> new Analyst(peopleMat.group());
-                case "CEO" -> new CEO(peopleMat.group());
-                default -> null;
-            };
-            System.out.println(employee.toString());
-            totalSalaries+=employee.getSalary();
+            employee = Employee.createEmployee(peopleMat.group());
+            if (employee != null ) {
+                System.out.println(employee.toString());
+                totalSalaries+=employee.getSalary();
+            }
         }
     }
 }

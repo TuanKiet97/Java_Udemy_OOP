@@ -25,5 +25,4 @@ public class Programmer extends Employee implements IEmployee, Apple{
     public int getSalary() {
 	return 3000 + linesOfCode * yearsOfExp * iq;
     }
-
 }
